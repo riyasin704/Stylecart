@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StyleCart - Add Product</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f6f3f0;
+            color: #333;
+        }
+
+        .header {
+            background-color: #222;
+            color: white;
+            padding: 18px 30px;
+        }
+
+        .header h2 {
+            margin: 0;
+            display: inline;
+        }
+
+        .dashboard-link {
+            float: right;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .dashboard-link:hover {
+            color: #e8b07a;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            margin: 45px auto;
+        }
+
+        .form-box {
+            background-color: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #777;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #888;
+        }
+
+        textarea {
+            height: 110px;
+            resize: vertical;
+        }
+
+        input[type="file"] {
+            padding: 8px;
+        }
+
+        .add-button {
+            width: 100%;
+            background-color: #222;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .add-button:hover {
+            background-color: #444;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .back-link a {
+            color: #555;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            color: #a06b42;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .form-box {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h2>StyleCart Admin</h2>
+
+        <a
+            class="dashboard-link"
+            href="{% url 'admin_dashboard' %}"
+        >
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="form-box">
+
+            <div class="page-heading">
+
+                <h1>Add Product</h1>
+
+                <p>Add a new product to your StyleCart store.</p>
+
+            </div>
+
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+
+                    <label>Product Name</label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Description</label>
+
+                    <textarea
+                        name="description"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Price</label>
+
+                    <input
+                        type="number"
+                        name="price"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Category</label>
+
+                    <select
+                        name="category"
+                        required
+                    >
+
+                        {% for category in categories %}
+
+                            <option value="{{ category.id }}">
+                                {{ category.name }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Product Image</label>
+
+                    <input
+                        type="file"
+                        name="image"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    class="add-button"
+                    type="submit"
+                >
+                    Add Product
+                </button>
+
+            </form>
+
+
+            <div class="back-link">
+
+                <a href="{% url 'products' %}">
+                    ← Back to Products
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

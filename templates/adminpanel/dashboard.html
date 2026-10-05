@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StyleCart - Admin Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f6f3f0;
+            color: #333;
+        }
+
+        .header {
+            background-color: #222;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .logout:hover {
+            color: #e8b07a;
+        }
+
+        .content {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        .page-heading p {
+            color: #777;
+            margin: 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #555;
+            font-size: 17px;
+        }
+
+        .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #222;
+            margin: 15px 0;
+        }
+
+        .card a {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .card a:hover {
+            color: #a06b42;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 850px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 550px) {
+            .header {
+                padding: 16px 20px;
+            }
+
+            .content {
+                width: 90%;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h2>StyleCart Admin</h2>
+
+        <a
+            class="logout"
+            href="{% url 'admin_logout' %}"
+        >
+            Logout
+        </a>
+
+    </div>
+
+
+    <div class="content">
+
+        <div class="page-heading">
+
+            <h1>Dashboard</h1>
+
+            <p>
+                Welcome to the StyleCart Admin Panel.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>Products</h3>
+
+                <p class="number">
+                    {{ total_products }}
+                </p>
+
+                <a href="{% url 'products' %}">
+                    View Products →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Categories</h3>
+
+                <p class="number">
+                    {{ total_categories }}
+                </p>
+
+                <a href="{% url 'categories' %}">
+                    View Categories →
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Customers</h3>
+
+                <p class="number">
+                    {{ total_customers }}
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Orders</h3>
+
+                <p class="number">
+                    {{ total_orders }}
+                </p>
+
+                <a href="{% url 'orders' %}">
+                    View Orders →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

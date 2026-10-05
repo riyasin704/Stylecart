@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StyleCart - Orders</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f6f3f0;
+            color: #333;
+        }
+
+        .header {
+            background-color: #222;
+            color: white;
+            padding: 18px 30px;
+        }
+
+        .header h2 {
+            margin: 0;
+            display: inline;
+        }
+
+        .header-links {
+            float: right;
+        }
+
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        .header-links a:hover {
+            color: #e8b07a;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 35px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            margin-bottom: 8px;
+            color: #222;
+        }
+
+        .page-heading p {
+            color: #777;
+            margin: 0;
+        }
+
+        .order-card {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .order-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .order-header h2 {
+            margin: 0;
+            color: #222;
+        }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 30px;
+            margin-bottom: 25px;
+        }
+
+        .info-item {
+            margin: 0;
+        }
+
+        .info-item strong {
+            color: #555;
+        }
+
+        .order-items {
+            background-color: #f8f6f4;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .order-items h3 {
+            margin-top: 0;
+            color: #222;
+        }
+
+        .item {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .status-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .status-section p {
+            margin: 0;
+        }
+
+        select {
+            padding: 9px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        .update-button {
+            background-color: #222;
+            color: white;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .update-button:hover {
+            background-color: #444;
+        }
+
+        .empty-box {
+            background-color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            color: #777;
+        }
+
+        .bottom-link {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .bottom-link a {
+            color: #555;
+            text-decoration: none;
+        }
+
+        .bottom-link a:hover {
+            color: #a06b42;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .header-links {
+                float: none;
+                margin-top: 10px;
+            }
+
+            .header-links a {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+
+            .order-info {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .order-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h2>StyleCart Admin</h2>
+
+        <div class="header-links">
+
+            <a href="{% url 'admin_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_logout' %}">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="page-heading">
+
+            <h1>Orders</h1>
+
+            <p>View customer orders and update their status.</p>
+
+        </div>
+
+
+        {% for order in orders %}
+
+            <div class="order-card">
+
+                <div class="order-header">
+
+                    <h2>
+                        Order #{{ order.id }}
+                    </h2>
+
+                </div>
+
+
+                <div class="order-info">
+
+                    <p class="info-item">
+                        <strong>Customer Name:</strong>
+                        {{ order.name }}
+                    </p>
+
+                    <p class="info-item">
+                        <strong>Customer Email:</strong>
+                        {{ order.user.email }}
+                    </p>
+
+                    <p class="info-item">
+                        <strong>Phone:</strong>
+                        {{ order.phone }}
+                    </p>
+
+                    <p class="info-item">
+                        <strong>Total Amount:</strong>
+                        ₹{{ order.total_amount }}
+                    </p>
+
+                    <p class="info-item">
+                        <strong>Order Date:</strong>
+                        {{ order.created_at|date:"d M Y, h:i A" }}
+                    </p>
+
+                    <p class="info-item">
+                        <strong>Address:</strong>
+                        {{ order.address }}
+                    </p>
+
+                </div>
+
+
+                <div class="order-items">
+
+                    <h3>Order Items</h3>
+
+                    {% for item in order.items.all %}
+
+                        <div class="item">
+
+                            <strong>
+                                {{ item.product.name }}
+                            </strong>
+
+                            <br>
+
+                            Quantity: {{ item.quantity }}
+                            &nbsp; | &nbsp;
+                            Price: ₹{{ item.price }}
+
+                        </div>
+
+                    {% empty %}
+
+                        <p>No items found for this order.</p>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="status-section">
+
+                    <p>
+                        <strong>Current Status:</strong>
+                        {{ order.status }}
+                    </p>
+
+
+                    <form
+                        method="post"
+                        action="{% url 'update_order_status' order.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <select name="status">
+
+                            {% for value, label in order.STATUS_CHOICES %}
+
+                                <option
+                                    value="{{ value }}"
+                                    {% if order.status == value %}selected{% endif %}
+                                >
+                                    {{ label }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+
+                        <button
+                            class="update-button"
+                            type="submit"
+                        >
+                            Update Status
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="empty-box">
+
+                <h2>No Orders Available</h2>
+
+                <p>
+                    There are no customer orders yet.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+
+        <div class="bottom-link">
+
+            <a href="{% url 'admin_dashboard' %}">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

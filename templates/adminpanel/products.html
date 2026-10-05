@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StyleCart - Products</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f6f3f0;
+            color: #333;
+        }
+
+        .header {
+            background-color: #222;
+            color: white;
+            padding: 18px 30px;
+        }
+
+        .header h2 {
+            margin: 0;
+            display: inline;
+        }
+
+        .dashboard-link {
+            float: right;
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .header a:hover {
+            color: #e8b07a;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .page-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            margin: 0;
+            color: #222;
+        }
+
+        .add-button {
+            background-color: #222;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .add-button:hover {
+            background-color: #444;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+        }
+
+        .product-card h2 {
+            margin-top: 0;
+            color: #222;
+        }
+
+        .product-card p {
+            color: #666;
+            margin: 8px 0;
+        }
+
+        .product-image {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 7px;
+            margin: 15px 0;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .available {
+            color: #4b7a4b;
+        }
+
+        .unavailable {
+            color: #a33;
+        }
+
+        .actions {
+            margin-top: 18px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 9px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .edit-button {
+            background-color: #222;
+            color: white;
+        }
+
+        .edit-button:hover {
+            background-color: #444;
+        }
+
+        .unavailable-button {
+            background-color: #f1dddd;
+            color: #8d3333;
+        }
+
+        .unavailable-button:hover {
+            background-color: #e8caca;
+        }
+
+        .empty {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .edit-section {
+            background-color: white;
+            padding: 30px;
+            margin-top: 35px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+        }
+
+        .edit-section h2 {
+            margin-top: 0;
+            color: #222;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #888;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        .update-button {
+            background-color: #222;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .update-button:hover {
+            background-color: #444;
+        }
+
+        .bottom-link {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .bottom-link a {
+            color: #555;
+            text-decoration: none;
+        }
+
+        .bottom-link a:hover {
+            color: #a06b42;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .page-heading {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .dashboard-link {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h2>StyleCart Admin</h2>
+
+        <a
+            class="logout"
+            href="{% url 'admin_logout' %}"
+        >
+            Logout
+        </a>
+
+        <a
+            class="dashboard-link"
+            href="{% url 'admin_dashboard' %}"
+        >
+            Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="page-heading">
+
+            <h1>Products</h1>
+
+            <a
+                class="add-button"
+                href="{% url 'add_product' %}"
+            >
+                + Add Product
+            </a>
+
+        </div>
+
+
+        {% if products %}
+
+            <div class="products">
+
+                {% for product in products %}
+
+                    <div class="product-card">
+
+                        <h2>{{ product.name }}</h2>
+
+                        <p>
+                            <strong>Category:</strong>
+                            {{ product.category.name }}
+                        </p>
+
+                        <p>
+                            <strong>Price:</strong>
+                            ₹{{ product.price }}
+                        </p>
+
+
+                        <p class="status">
+
+                            <strong>Status:</strong>
+
+                            {% if product.available %}
+
+                                <span class="available">
+                                    Available
+                                </span>
+
+                            {% else %}
+
+                                <span class="unavailable">
+                                    Not Available
+                                </span>
+
+                            {% endif %}
+
+                        </p>
+
+
+                        {% if product.image %}
+
+                            <img
+                                class="product-image"
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                            >
+
+                        {% endif %}
+
+
+                        <div class="actions">
+
+                            <a
+                                class="action-button edit-button"
+                                href="{% url 'edit_product' product.id %}"
+                            >
+                                Edit
+                            </a>
+
+
+                            {% if product.available %}
+
+                                <a
+                                    class="action-button unavailable-button"
+                                    href="{% url 'delete_product' product.id %}"
+                                >
+                                    Make Unavailable
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+
+                <p>No products available.</p>
+
+                <a
+                    class="add-button"
+                    href="{% url 'add_product' %}"
+                >
+                    Add First Product
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+        {% if edit_product %}
+
+            <div class="edit-section">
+
+                <h2>Edit Product</h2>
+
+
+                <form
+                    method="post"
+                    action="{% url 'edit_product' edit_product.id %}"
+                    enctype="multipart/form-data"
+                >
+
+                    {% csrf_token %}
+
+
+                    <div class="form-group">
+
+                        <label>Category</label>
+
+                        <select name="category">
+
+                            {% for category in categories %}
+
+                                <option
+                                    value="{{ category.id }}"
+                                    {% if edit_product.category.id == category.id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ category.name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Product Name</label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            value="{{ edit_product.name }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Description</label>
+
+                        <textarea
+                            name="description"
+                            required
+                        >{{ edit_product.description }}</textarea>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Price</label>
+
+                        <input
+                            type="number"
+                            name="price"
+                            step="0.01"
+                            value="{{ edit_product.price }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Change Image</label>
+
+                        <input
+                            type="file"
+                            name="image"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group checkbox-group">
+
+                        <input
+                            type="checkbox"
+                            name="available"
+                            {% if edit_product.available %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <label>
+                            Product Available
+                        </label>
+
+                    </div>
+
+
+                    <button
+                        class="update-button"
+                        type="submit"
+                    >
+                        Update Product
+                    </button>
+
+                </form>
+
+            </div>
+
+        {% endif %}
+
+
+        <div class="bottom-link">
+
+            <a href="{% url 'admin_dashboard' %}">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
